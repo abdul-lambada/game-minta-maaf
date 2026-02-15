@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maaf Sayang ❤️ - Happy Valentine's Day</title>
+    <meta name="description" content="Permintaan maaf spesial untuk kamu tersayang di Hari Valentine">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="new-features.css">
+</head>
+
+<body>
+    <div class="stars"></div>
+    <div class="hearts-bg"></div>
+
+    <!-- Audio Elements - Romantic Music -->
+    <audio id="bgMusic1" loop>
+        <!-- Romantic Piano - Untuk Intro & Valentine -->
+        <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_9b4c2f6e8d.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgMusic2" loop>
+        <!-- Upbeat Love Song - Untuk Game -->
+        <source src="https://cdn.pixabay.com/audio/2023/02/28/audio_c8b3f3f935.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgMusic3" loop>
+        <!-- Emotional Piano - Untuk Apology Message -->
+        <source src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="clickSound">
+        <source src="https://cdn.pixabay.com/audio/2021/08/04/audio_12b0c7443c.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="heartSound">
+        <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_7e1b8d4e8b.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="wrongSound">
+        <source src="https://cdn.pixabay.com/audio/2021/08/04/audio_0625c1539c.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music Control Button -->
+    <button id="musicToggle" class="music-toggle" onclick="toggleMusic()">
+        🔊
+    </button>
+
+    <div id="intro-screen" class="screen active">
+        <div class="intro-content">
+            <h1 class="title-main">Untuk Kamu Tersayang 💝</h1>
+            <p class="subtitle">Ada sesuatu yang ingin aku sampaikan...</p>
+
+            <!-- Panduan Cara Bermain -->
+            <div class="guide-box">
+                <h3 class="guide-title">📖 Cara Bermain</h3>
+                <div class="guide-steps">
+                    <div class="guide-step">
+                        <span class="step-number">1</span>
+                        <span class="step-text">Klik tombol "Buka Pesanku" untuk mulai</span>
+                    </div>
+                    <div class="guide-step">
+                        <span class="step-number">2</span>
+                        <span class="step-text">Main game: Klik hati merah ❤️, hindari hati hitam 🖤</span>
+                    </div>
+                    <div class="guide-step">
+                        <span class="step-number">3</span>
+                        <span class="step-text">Baca pesan dengan hati, pilih "Maafin?" atau "Belum"</span>
+                    </div>
+                    <div class="guide-step">
+                        <span class="step-number">4</span>
+                        <span class="step-text">Nikmati semua kejutan yang sudah disiapkan untukmu</span>
+                    </div>
+                </div>
+                <div class="guide-tips">
+                    <p>💡 <strong>Tips:</strong> Klik tombol 🔊 di pojok kanan atas untuk musik</p>
+                    <p>⏱️ <strong>Game:</strong> Mode Easy - 45 detik, target 15 hati</p>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="startGame()">Buka Pesanku</button>
+        </div>
+    </div>
+
+    <div id="game-screen" class="screen">
+        <div class="game-container">
+            <h2 class="game-title">Tangkap Hatiku ❤️</h2>
+            <div class="score-board">
+                <div class="score">Hati: <span id="score">0</span>/15</div>
+                <div class="timer">Waktu: <span id="timer">45</span>s</div>
+            </div>
+            <canvas id="gameCanvas"></canvas>
+            <p class="game-hint">Klik hati merah, hindari hati hitam! (Mode: Easy 😊)</p>
+        </div>
+    </div>
+
+    <div id="message-screen" class="screen">
+        <div class="message-container">
+            <div class="message-card">
+                <h2 class="message-title">Maafkan Aku Sayang 🌹</h2>
+                <div class="message-content">
+                    <p class="message-text">
+                        Aku tahu aku sering mengecewakan kamu, melakukan kesalahan yang sama berulang kali.
+                        Aku sadar betapa sakitnya hatimu setiap kali aku mengulang hal yang kamu tidak sukai.
+                    </p>
+                    <p class="message-text">
+                        Maafkan aku yang masih belajar menjadi lebih baik. Aku berjanji akan berusaha lebih keras
+                        untuk berubah, untuk menjadi seseorang yang lebih baik untukmu.
+                    </p>
+                    <p class="message-text highlight">
+                        Kamu adalah alasan aku ingin menjadi versi terbaik dari diriku.
+                        Terima kasih sudah bersabar denganku. ❤️
+                    </p>
+                </div>
+
+                <!-- Forgiveness Question -->
+                <div id="forgiveness-question" class="forgiveness-section">
+                    <h3 class="forgiveness-title">Maafin aku? 🥺</h3>
+                    <div class="forgiveness-buttons">
+                        <button class="btn-yes" onclick="handleForgiveness(true)">Ya, Aku Maafin ❤️</button>
+                        <button class="btn-no" onclick="handleForgiveness(false)">Belum...</button>
+                    </div>
+                </div>
+
+                <!-- Response for "Belum" -->
+                <div id="not-yet-response" class="not-yet-section" style="display:none;">
+                    <div class="sad-emoji">😢</div>
+                    <p class="not-yet-text">
+                        Aku tahu aku belum pantas dimaafkan... Tapi aku janji akan terus berusaha.
+                    </p>
+                    <p class="not-yet-text">
+                        Aku akan membuktikan dengan tindakan nyata, bukan hanya kata-kata.
+                        Berikan aku kesempatan untuk menunjukkan perubahan yang sebenarnya.
+                    </p>
+                    <p class="not-yet-text highlight">
+                        Aku akan menunggu sampai kamu siap memaafkan aku.
+                        Karena kamu layak mendapatkan yang terbaik, dan aku akan menjadi yang terbaik untukmu. 💔
+                    </p>
+
+                    <!-- AI Persuasion Messages -->
+                    <div id="ai-persuasion" class="ai-persuasion-box">
+                        <div class="ai-header">
+                            <span class="ai-icon">🤖</span>
+                            <span class="ai-label">Pesan dari AI Assistant</span>
+                        </div>
+                        <div id="ai-message-1" class="ai-message" style="display:none;">
+                            <p class="ai-text">
+                                Halo sayang... Aku AI yang membantu dia membuat game ini.
+                                Aku lihat dia benar-benar serius ingin minta maaf sama kamu.
+                                Dia sampai rela belajar coding dan buat game spesial ini untukmu lho! 💝
+                            </p>
+                        </div>
+                        <div id="ai-message-2" class="ai-message" style="display:none;">
+                            <p class="ai-text">
+                                Aku tahu kamu masih sakit hati... Tapi coba lihat usahanya.
+                                Dia buat game ini dengan penuh cinta, ada Love Counter yang hitung hari kalian bersama
+                                (sejak 17 Juni 2025),
+                                ada janji-janji yang dia tulis, bahkan ada pesan rahasia tentang kado untukmu! 🎁
+                            </p>
+                        </div>
+                        <div id="ai-message-3" class="ai-message" style="display:none;">
+                            <p class="ai-text">
+                                Tidak semua orang mau berusaha sejauh ini untuk minta maaf.
+                                Dia benar-benar menyesal dan ingin berubah.
+                                Mungkin dia memang sering salah, tapi bukankah cinta itu tentang memberi kesempatan
+                                kedua? 💕
+                            </p>
+                        </div>
+                        <div id="ai-message-4" class="ai-message" style="display:none;">
+                            <p class="ai-text">
+                                Aku lihat di matanya (eh, maksudnya di code-nya 😅) betapa dia mencintaimu.
+                                Setiap baris code di game ini penuh dengan penyesalan dan harapan.
+                                Dia takut kehilangan kamu... 😢
+                            </p>
+                        </div>
+                        <div id="ai-message-5" class="ai-message" style="display:none;">
+                            <p class="ai-text">
+                                Baiklah, keputusan ada di tanganmu sayang. Tapi ingat,
+                                orang yang benar-benar mencintaimu adalah orang yang mau berusaha untuk berubah.
+                                Dan dia sedang berusaha sekarang. Kasih dia satu kesempatan lagi? 🙏
+                            </p>
+                        </div>
+                        <div id="ai-message-final" class="ai-message ai-final" style="display:none;">
+                            <p class="ai-text highlight">
+                                ✨ Aku percaya cinta kalian lebih kuat dari kesalahan-kesalahan kecil.
+                                Dia janji akan berubah, dan aku akan bantu dia jadi lebih baik untukmu.
+                                Jadi... Maafin dia ya? 🥺❤️
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="forgiveness-buttons">
+                        <button class="btn-yes" onclick="handleForgiveness(true)">Baiklah, Aku Maafin ❤️</button>
+                        <button class="btn-secondary" onclick="showValentine()">Lanjut Dulu</button>
+                    </div>
+                </div>
+
+                <!-- Response for "Ya" -->
+                <div id="forgiven-response" class="forgiven-section" style="display:none;">
+                    <div class="happy-emoji">😊💕</div>
+                    <p class="forgiven-text">
+                        Terima kasih sayang! Aku janji tidak akan mengecewakanmu lagi! 🙏❤️
+                    </p>
+                    <button class="btn-primary" onclick="showValentine()">Lanjut ke Pesan Valentine</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <div id="valentine-screen" class="screen">
+        <div class="valentine-container">
+            <div class="valentine-card">
+                <h2 class="valentine-title">Happy Valentine's Day 💖</h2>
+                <div class="valentine-content">
+                    <p class="valentine-text">
+                        Di hari Valentine ini, aku ingin kamu tahu bahwa kamu adalah segalanya bagiku.
+                    </p>
+                    <p class="valentine-text">
+                        Setiap detik bersamamu adalah hadiah terindah. Senyummu adalah surga duniaku.
+                        Tawamu adalah musik termerdu yang pernah aku dengar.
+                    </p>
+                    <p class="valentine-text">
+                        Aku mencintaimu bukan karena siapa dirimu, tapi karena siapa diriku saat bersamamu.
+                        Kamu membuat aku ingin menjadi lebih baik setiap harinya.
+                    </p>
+                    <p class="valentine-text highlight">
+                        Terima kasih sudah memilihku, menerimaku apa adanya, dan mencintaiku dengan sepenuh hatimu.
+                    </p>
+                    <p class="valentine-text signature">
+                        Selamanya milikmu,<br>
+                        Yang selalu mencintaimu 💕
+                    </p>
+                </div>
+                <button class="btn-primary" onclick="showLoveCounter()">Lihat Kenangan Kita</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="love-counter-screen" class="screen">
+        <div class="love-counter-container">
+            <h2 class="section-title">Perjalanan Cinta Kita 💕</h2>
+            <div class="counter-card">
+                <div class="counter-item">
+                    <div class="counter-number" id="days">0</div>
+                    <div class="counter-label">Hari</div>
+                </div>
+                <div class="counter-item">
+                    <div class="counter-number" id="hours">0</div>
+                    <div class="counter-label">Jam</div>
+                </div>
+                <div class="counter-item">
+                    <div class="counter-number" id="minutes">0</div>
+                    <div class="counter-label">Menit</div>
+                </div>
+                <div class="counter-item">
+                    <div class="counter-number" id="seconds">0</div>
+                    <div class="counter-label">Detik</div>
+                </div>
+            </div>
+            <p class="love-date">Sejak: <span id="startDate">17 Juni 2025</span></p>
+            <p class="love-quote">"Setiap detik bersamamu adalah berkah yang tak ternilai"</p>
+            <button class="btn-primary" onclick="showPromises()">Lihat Janjiku</button>
+        </div>
+    </div>
+
+    <div id="promise-screen" class="screen">
+        <div class="promise-container">
+            <h2 class="section-title">Janjiku Untukmu 🌹</h2>
+            <div class="promise-list">
+                <div class="promise-item">
+                    <div class="promise-icon">💝</div>
+                    <div class="promise-text">
+                        <h3>Mendengarkan Lebih Baik</h3>
+                        <p>Aku berjanji akan lebih mendengarkan perasaan dan kebutuhanmu dengan sepenuh hati</p>
+                    </div>
+                </div>
+                <div class="promise-item">
+                    <div class="promise-icon">🌟</div>
+                    <div class="promise-text">
+                        <h3>Lebih Perhatian</h3>
+                        <p>Aku akan lebih memperhatikan hal-hal kecil yang membuatmu bahagia</p>
+                    </div>
+                </div>
+                <div class="promise-item">
+                    <div class="promise-icon">💪</div>
+                    <div class="promise-text">
+                        <h3>Berubah Menjadi Lebih Baik</h3>
+                        <p>Aku akan terus berusaha memperbaiki kesalahan dan tidak mengulanginya lagi</p>
+                    </div>
+                </div>
+                <div class="promise-item">
+                    <div class="promise-icon">❤️</div>
+                    <div class="promise-text">
+                        <h3>Mencintaimu Lebih Dalam</h3>
+                        <p>Setiap hari aku akan menunjukkan betapa berharganya kamu bagiku</p>
+                    </div>
+                </div>
+                <div class="promise-item">
+                    <div class="promise-icon">🤝</div>
+                    <div class="promise-text">
+                        <h3>Selalu Ada Untukmu</h3>
+                        <p>Di saat suka maupun duka, aku akan selalu ada di sampingmu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Secret Gift Message -->
+        <div class="secret-message-box">
+            <div class="secret-icon">🎁</div>
+            <h3 class="secret-title">Psst... Ada Rahasia! 🤫</h3>
+            <p class="secret-text">
+                Untuk kadonya nanti dikasih secara rahasia ya sayang... 💝
+            </p>
+            <p class="secret-text">
+                Maaf ya telat untuk ini, tapi aku sayang banget sama kamu! ❤️
+            </p>
+            <p class="secret-text highlight">
+                Tunggu kejutannya ya! Aku harap kamu suka! 🎉
+            </p>
+        </div>
+
+        <button class="btn-primary" onclick="showGallery()">Lihat Galeri Kenangan</button>
+    </div>
+    </div>
+
+    <div id="gallery-screen" class="screen">
+        <div class="gallery-container">
+            <h2 class="section-title">Galeri Kenangan Kita 📸</h2>
+            <svg id="photoGallery" width="800" height="500"></svg>
+            <p class="gallery-hint">Klik foto untuk melihat lebih dekat</p>
+            <button class="btn-primary" onclick="showMemoryGame()">Main Memory Game</button>
+        </div>
+    </div>
+
+    <div id="memory-game-screen" class="screen">
+        <div class="memory-game-container">
+            <h2 class="section-title">Memory Game: Momen Spesial Kita 💭</h2>
+            <div class="game-info">
+                <div class="moves">Langkah: <span id="moves">0</span></div>
+                <div class="matches">Cocok: <span id="matches">0</span>/6</div>
+            </div>
+            <div id="memoryBoard" class="memory-board"></div>
+            <button class="btn-primary" onclick="showLetter()" id="finalBtn" style="display:none;">Buka Surat Cinta
+                💌</button>
+        </div>
+    </div>
+
+    <!-- Love Letter Screen -->
+    <div id="letter-screen" class="screen">
+        <div class="letter-container">
+            <h2 class="section-title">Surat Cinta Untukmu 💌</h2>
+            <div id="envelope" class="envelope" onclick="openLetter()">
+                <div class="envelope-flap"></div>
+                <div class="envelope-body">
+                    <p class="envelope-text">Klik untuk membuka ❤️</p>
+                </div>
+            </div>
+            <div id="letter-content" class="letter-content" style="display:none;">
+                <div class="letter-paper">
+                    <h3 class="letter-title">Untuk Cinta Sejatiku 💝</h3>
+                    <div class="letter-text">
+                        <p>Sayang,</p>
+                        <p>
+                            Aku tahu kata-kata tidak cukup untuk mengungkapkan penyesalanku.
+                            Tapi aku ingin kamu tahu bahwa setiap detik bersamamu adalah anugerah terindah dalam
+                            hidupku.
+                        </p>
+                        <p>
+                            Aku menyesal telah menyakitimu. Aku menyesal telah mengecewakan harapanmu.
+                            Tapi yang tidak pernah berubah adalah cintaku padamu yang semakin dalam setiap harinya.
+                        </p>
+                        <p>
+                            Kamu bukan hanya pacarku, kamu adalah sahabat terbaikku, tempat pulangku,
+                            dan alasan aku ingin menjadi pribadi yang lebih baik. Tanpamu, hidupku terasa hampa.
+                        </p>
+                        <p>
+                            Aku berjanji akan terus belajar, terus berubah, dan terus berjuang untuk menjadi
+                            seseorang yang layak berada di sampingmu. Karena kamu layak mendapatkan yang terbaik,
+                            dan aku akan menjadi yang terbaik untukmu.
+                        </p>
+                        <p>
+                            Terima kasih sudah bersabar denganku. Terima kasih sudah mencintaiku apa adanya.
+                            Terima kasih sudah menjadi alasan aku tersenyum setiap hari.
+                        </p>
+                        <p class="letter-signature">
+                            Dengan cinta yang tak terbatas,<br>
+                            <strong>Orang yang sangat mencintaimu ❤️</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <button id="next-after-letter" class="btn-primary" style="display:none;" onclick="showGiftBox()">Lanjut ke
+                Hadiah 🎁</button>
+        </div>
+    </div>
+
+    <!-- Virtual Gift Box Screen -->
+    <div id="giftbox-screen" class="screen">
+        <div class="giftbox-container">
+            <h2 class="section-title">Ada Hadiah Untukmu! 🎁</h2>
+            <div id="gift-box" class="gift-box" onclick="openGiftBox()">
+                <div class="gift-lid">
+                    <div class="gift-bow">🎀</div>
+                </div>
+                <div class="gift-body">
+                    <p class="gift-hint">Klik untuk membuka! ✨</p>
+                </div>
+            </div>
+            <div id="gift-reveal" class="gift-reveal" style="display:none;">
+                <div class="gift-sparkles">✨🎉✨</div>
+                <h3 class="gift-title">Hadiahmu Adalah...</h3>
+                <div class="gift-content">
+                    <div class="gift-item">
+                        <span class="gift-emoji">💝</span>
+                        <p>Cintaku yang tulus dan abadi</p>
+                    </div>
+                    <div class="gift-item">
+                        <span class="gift-emoji">🎁</span>
+                        <p>Hadiah fisik yang akan diberikan secara rahasia (tunggu kejutannya!)</p>
+                    </div>
+                    <div class="gift-item">
+                        <span class="gift-emoji">🌹</span>
+                        <p>Komitmen untuk selalu memperlakukanmu seperti ratu</p>
+                    </div>
+                    <div class="gift-item">
+                        <span class="gift-emoji">⏰</span>
+                        <p>Waktu berkualitas bersama yang lebih banyak</p>
+                    </div>
+                    <div class="gift-item">
+                        <span class="gift-emoji">💍</span>
+                        <p>Janji untuk masa depan kita bersama</p>
+                    </div>
+                </div>
+            </div>
+            <button id="next-after-gift" class="btn-primary" style="display:none;" onclick="showGuestBook()">Lanjut ke
+                Pesan 📝</button>
+        </div>
+    </div>
+
+    <!-- Guest Book Screen -->
+    <div id="guestbook-screen" class="screen">
+        <div class="guestbook-container">
+            <h2 class="section-title">Pesan untuk Masa Depan 📝</h2>
+            <p class="guestbook-subtitle">Tulis pesan untuk kita baca bersama nanti ❤️</p>
+            <div class="guestbook-form">
+                <textarea id="guestbook-message" class="guestbook-textarea"
+                    placeholder="Tulis pesan, harapan, atau apapun yang ingin kamu sampaikan untuk masa depan kita...&#10;&#10;Contoh: 'Aku harap kita bisa jalan-jalan ke Bali tahun ini!' atau 'Semoga kita selalu bahagia seperti hari ini'"></textarea>
+                <button class="btn-primary" onclick="saveGuestBook()">Simpan Pesan 💌</button>
+            </div>
+            <div id="saved-messages" class="saved-messages">
+                <h3 class="saved-title">Pesan yang Tersimpan:</h3>
+                <div id="messages-list" class="messages-list"></div>
+            </div>
+            <button class="btn-secondary" onclick="showAchievements()">Lanjut ke Achievement 🌟</button>
+        </div>
+    </div>
+
+    <!-- Achievement Badges Screen -->
+    <div id="achievement-screen" class="screen">
+        <div class="achievement-container">
+            <h2 class="section-title">Achievement Unlocked! 🏆</h2>
+            <p class="achievement-subtitle">Kamu berhasil menyelesaikan semua tantangan!</p>
+            <div class="badges-grid">
+                <div class="badge-item unlocked">
+                    <div class="badge-icon">🎮</div>
+                    <h4>Game Master</h4>
+                    <p>Menyelesaikan Heart Game</p>
+                </div>
+                <div class="badge-item unlocked">
+                    <div class="badge-icon">❤️</div>
+                    <h4>Pemaaf Sejati</h4>
+                    <p>Memaafkan dengan tulus</p>
+                </div>
+                <div class="badge-item unlocked">
+                    <div class="badge-icon">💌</div>
+                    <h4>Love Letter Reader</h4>
+                    <p>Membaca surat cinta</p>
+                </div>
+                <div class="badge-item unlocked">
+                    <div class="badge-icon">🎁</div>
+                    <h4>Gift Opener</h4>
+                    <p>Membuka hadiah virtual</p>
+                </div>
+                <div class="badge-item unlocked">
+                    <div class="badge-icon">📝</div>
+                    <h4>Message Writer</h4>
+                    <p>Menulis pesan masa depan</p>
+                </div>
+                <div class="badge-item unlocked special">
+                    <div class="badge-icon">👑</div>
+                    <h4>The Best Girlfriend Ever!</h4>
+                    <p>Kamu adalah yang terbaik! ✨</p>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="showFinal()">Ke Pesan Terakhir 💝</button>
+        </div>
+    </div>
+
+    <div id="final-screen" class="screen">
+        <div class="final-container">
+            <h1 class="final-title">I Love You ❤️</h1>
+            <div class="heart-animation">
+                <div class="big-heart">💖</div>
+            </div>
+            <p class="final-message">Kamu adalah cinta sejatiku</p>
+            <button class="btn-secondary" onclick="location.reload()">Ulangi Lagi</button>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
